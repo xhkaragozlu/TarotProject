@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+    .sinif {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 20px; /* Kenarlardan boşluk ekler */
+    font-family: Arial, sans-serif;
+    box-sizing: border-box; /* Padding ve border'ların box modeline dahil olmasını sağlar */
+}
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .site-title {
+            font-size: 48px; /* 2 katı büyütüldü */
+            font-weight: bold;
+            margin-bottom: 20px; /* Daha fazla boşluk */
+            padding: 20px;
+            background-color: #fddfde; /* Çok açık soft pembe */
+            border-radius: 8px;
+        }
+		
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Kartları ortalar */
+    margin: 0; /* Önceki margin'i kaldırdık */
+    width: calc(100% - 40px); /* Sağdan ve soldan 20px boşluk bırakır */
+    max-width: 800px; /* Maksimum genişliği ayarlayın */
+	margin-top: 70px;
+}
+
+.card {
+    width: 50px; /* Kart genişliği */
+    height: 70px; /* Kart yüksekliği */
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s, box-shadow 0.3s;
+    margin: -7px; /* Kartlar arasındaki boşluğu azaltır ve üst üste binmelerini sağlar */
+    cursor: pointer; /* Tıklanabilir */
+
+}
+
+.card.selected {
+    z-index: 10; /* Seçili kartın diğerlerinin önünde görünmesini sağlar */
+    transform: translateY(-20px) scale(1.2); /* Kartı 20px yukarı kaydırır ve büyütür */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7); /* Seçili kartın etrafında belirgin gölge */
+}
+
+
+.card .front, .card .back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px; /* Yazı boyutunu küçült */
+    text-align: center;
+    padding: 5px;
+}
+
+.card .front {
+    background: url('images/backai.jpg') no-repeat center center;
+    background-size: cover;
+    color: transparent; /* Ön yüzde yazı görünmez */
+}
+
+.card .back {
+    background: #fff;
+    color: #000;
+    transform: rotateY(180deg);
+}
+
+.description {
+    width: 80%;
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 10px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    /*display: none;  Başlangıçta gizli */
+}
+
+.description.active { 
+    display: block;
+}
+
+.description h2 {
+    margin-top: 0;
+}
+
+.description p {
+    margin: 5px 0;
+}
+
+.reset-button {
+    position: relative; /* Mutlak yerine göreceli pozisyonlama */
+    align-items: center;
+    padding: 10px 30px;
+    font-size: 17px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #910606;
+    color: #fff;
+    transition: background-color 0.3s;
+    margin-top: 40px; /* Butonun üst kısmında boşluk bırakır */
+}
+
+.reset-button:hover {
+    background-color: #0056b3;
+}
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">TAROTLAB</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Anasayfa</a></li>
+        <li class="active"><a href="uckartpage.html">Üç Kart Tarot Açılımı</a></li>
+        <li><a href="tekkartpage.html">Tek Kart Tarot Açılımı</a></li>
+        <li><a href="deneme.html">Tarot Kartları</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="sinif">
+  <h1>Üç Kart Tarot Açılımı</h1>
+  
+    <div>
+      <p>Eski bir tarot falı türü olan Üç Kart Tarot Falı açılımı, Geçmiş, Şimdi ve Gelecek hakkında bilgi verir. 
+        Üç kart tarot açılımı aynı zamanda bugünlerde yaşadığınız olaylara da bir bakıç açısıyla bakmanızı sağlayabilir.
+        Üç Kart Tarot Falınızı gönderirken kartlarınıza iyice odaklanmayı unutmayın. Lütfen içinizden sorunuzu sorup bir kart seçiniz.</p>
+    </div>
+<div class="card-container">
+  <!-- 78 tarot kartı kutucuğu oluşturuluyor -->
+  </div>
+
+
+
+  <div class="description">
+    <p></p>
+  </div>
+</DIV>
+<button class="reset-button">Kartları Karıştır</button>
+</div>
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+      const numberOfCards = 78;
+  const cardNames = [
+      'JOKER', 'BÜYÜCÜ', 'AZİZE', 'İMPARATORİÇE', 'İMPARATOR',
+      'AZİZ', 'AŞIKLAR', 'ARABA', 'GÜÇ', 'ERMİŞ',
+      'KADER ÇARKI', 'ADALET', 'ASILAN ADAM', 'ÖLÜM', 'DENGE',
+      'ŞEYTAN', 'YIKILAN KULE', 'YILDIZ', 'AY', 'GÜNEŞ',
+      'MAHKEME', 'DÜNYA', 'DEĞNEK ASI', 'DEĞNEK İKİLİSİ', 'DEĞNEK ÜÇLÜSÜ',
+      'DEĞNEK DÖRTLÜSÜ', 'DEĞNEK BEŞLİSİ', 'DEĞNEK ALTILISI', 'DEĞNEK YEDİLİSİ', 'DEĞNEK SEKİZLİSİ',
+      'DEĞNEK DOKUZLUSU', 'DEĞNEK ONLUSU', 'DEĞNEK PRENSİ', 'DEĞNEK ŞÖVALYESİ', 'DEĞNEK KRALİÇESİ',
+      'DEĞNEK KRALI', 'KUPA ASI', 'KUPA İKİSİ', 'KUPA ÜÇLÜSÜ', 'KUPA DÖRTLÜSÜ',
+      'KUPA BEŞLİSİ', 'KUPA ALTILISI', 'KUPA YEDİLİSİ', 'KUPA SEKİZLİSİ', 'KUPA DOKUZLUSU',
+      'KUPA ONLUSU', 'KUPA PRENSİ', 'KUPA ŞÖVALYESİ', 'KUPA KRALİÇESİ', 'KUPA KRALI',
+      'KILIÇ ASI', 'KILIÇ İKİLİSİ', 'KILIÇ ÜÇLÜSÜ', 'KILIÇ DÖRTLÜSÜ', 'KILIÇ BEŞLİSİ',
+      'KILIÇ ALTILISI', 'KILIÇ YEDİLİSİ', 'KILIÇ SEKİZLİSİ', 'KILIÇ DOKUZLUSU', 'KILIÇ ONLUSU',
+      'KILIÇ PRENSİ', 'KILIÇ ŞÖVALYESİ', 'KILIÇ KRALİÇESİ', 'KILIÇ KRALI',
+      'PARA ASI', 'PARA İKİLİSİ', 'PARA ÜÇLÜSÜ', 'PARA DÖRTLÜSÜ',
+      'PARA BEŞLİSİ', 'PARA ALTILISI', 'PARA YEDİLİSİ', 'PARA SEKİZLİSİ',
+      'PARA DOKUZLUSU', 'PARA ONLUSU', 'PARA PRENSİ', 'PARA ŞÖVALYESİ',
+      'PARA KRALİÇESİ', 'PARA KRALI'
+  ];
+
+      // Her kart için açıklama verileri
+      const cardDescriptions = {
+  'JOKER': {
+      'AŞK': 'Aşk hayatınızda yeni başlangıçlar ve sürprizler ön planda. Bu kart, hayatınıza beklenmedik değişiklikler ve heyecanlar getirebilir. Romantik yaşamınızda yenilikçi ve cesur adımlar atmak için uygun bir zaman.',
+  },
+  'BÜYÜCÜ': {
+      'AŞK': 'Aşk hayatınızda yaratıcılık ve dönüşüm ön planda. Bu kart, ilişkide yenilikçi ve yaratıcı bir yaklaşım getirir. Romantik yaşamınızda yeni fırsatlar yaratmak ve potansiyelinizi ortaya çıkarmak için güçlü bir dönemdesiniz.',
+  },
+   'AZİZE': {
+      'AŞK': 'Aşk hayatınızda derin içsel bilgilere ve sezgilere yönelmeniz gereken bir dönemdesiniz. Bu kart, ruhsal bir arayış ve içsel dengeyi temsil eder. İlişkinizde sabırlı ve anlayışlı olmalısınız. İçsel bilgelik ve manevi derinliklerinizi keşfetmek, aşk yaşamınızı olumlu yönde etkileyebilir.',
+  },
+     'İMPARATORİÇE': {
+      'AŞK': 'Aşk hayatınızda bolluk ve bereket dönemi başlıyor. Bu kart, ilişkilerde derin bir tatmin ve huzur getirecek. Romantik bağlantılarınızda sevgi ve anlayışın artacağı, ilişkinizin tatlı bir büyüme aşamasına geçeceği anlamına gelir. Belki de yeni bir ilişkiye adım atabilir veya mevcut ilişkinizde romantizmin yeniden alevlendiğini görebilirsiniz.',
+  },
+     'İMPARATOR': {
+      'AŞK': 'Aşk hayatınızda sağlam bir temele ihtiyaç duyduğunuz bir dönemdesiniz. Bu kart, ilişkinizde liderlik ve güvenlik arayışını temsil eder. Karşılıklı saygı ve sorumluluk duygusu ön planda olabilir. İlişkinizdeki düzeni sağlamak ve ortak hedeflere yönelmek için güçlü bir kararlılığa sahip olmalısınız.',
+  },
+     'AZİZ': {
+      'AŞK': 'Geleneksel değerler ve manevi inançlar aşk hayatınızda önemli bir rol oynayabilir. Bu kart, ilişkiyi destekleyen köklü değerleri ve gelenekleri temsil eder. Aşk yaşamınızda derin bir manevi bağlantı kurma ve kişisel inançlarınıza sadık kalma zamanı olabilir.',
+  },
+     'AŞIKLAR': {
+      'AŞK': 'Aşk hayatınızda önemli bir karar verme zamanı. Bu kart, derin bir bağ ve tutku getirebilir. İlişkinizde büyük bir seçim yapmanız gerekebilir ve bu seçim geleceğinizi belirleyebilir.',
+  },
+     'ARABA': {
+      'AŞK': 'Aşk hayatınızda güçlü bir yönlendirme ve ilerleme dönemi. Bu kart, ilişkinizde hedeflere odaklanmanızı ve başarılı bir şekilde ilerlemenizi gösterir. Enerji ve azimle dolu bir dönemdesiniz; bu nedenle, ilişkinizdeki engelleri aşma konusunda cesur olmalısınız.',
+  },
+     'GÜÇ': {
+      'AŞK': 'Aşk hayatınızda içsel gücünüzü ve kararlılığınızı kullanmanız gereken bir dönemdesiniz. Bu kart, duygusal zorlukları aşma ve güçlü bir bağ kurma yeteneğinizi temsil eder. İlişkinizde güven ve destek sağlamak için güçlü bir karakter sergilemeniz gerekebilir.',
+  },
+     'ERMİŞ': {
+      'AŞK': 'Aşk hayatınızda içsel bilgelik ve manevi bir arayış dönemi. Bu kart, derin düşünceler ve ruhsal bir gelişim süreci yaşamanızı gösterir. İlişkinizdeki derinlikleri keşfetmek ve içsel bilgeliğinizi kullanmak için iyi bir zaman.',
+  },
+     'KADER ÇARKI': {
+      'AŞK': 'Aşk hayatınızda beklenmedik değişimler ve şanslı fırsatlar ön planda. Bu kart, hayatınızdaki büyük döngülerin ve değişimlerin habercisidir. Şansa açık olmalı ve akışa uyum sağlamalısınız.',
+  },
+     'ADALET': {
+      'AŞK': 'Aşk hayatınızda adalet ve eşitlik arayışı içindesiniz. Bu kart, ilişki konularında adil ve dengeli bir yaklaşım benimsemenizi önerir. İlişkinizde dürüstlük ve tarafsızlık ön planda olabilir.',
+  },
+     'ASILAN ADAM': {
+      'AŞK': 'Aşk hayatınızda sabır ve teslimiyet dönemi. Bu kart, olaylara farklı bir bakış açısıyla yaklaşmanız ve bazı fedakarlıklar yapmanız gerektiğini gösterir. İçsel bir arayış içinde olabilir ve ilişkilerde derin bir anlayış geliştirebilirsiniz.',
+  },
+     'ÖLÜM': {
+      'AŞK': 'Aşk hayatınızda eski bir dönemin kapanışı ve yeni bir başlangıç olabilir. Bu kart, eski alışkanlıkların ve ilişkilerin son bulması anlamına gelir. Yeni bir döneme adım atmak ve yeniliklere açık olmak için bu zamanı kullanabilirsiniz.',
+  },
+     'DENGE': {
+      'AŞK': 'Aşk hayatınızda denge ve uyum arayışındasınız. Bu kart, ilişkilerde adil bir yaklaşım ve karşılıklı anlayışın önemini vurgular. İlişkinizde duygusal dengeyi sağlamak için dikkatli ve hassas olmalısınız.',
+  },
+     'ŞEYTAN': {
+      'AŞK': 'Aşk hayatınızda bağımlılıklar ve takıntılarla yüzleşmeniz gerekebilir. Bu kart, ilişkideki olumsuz alışkanlıkları ve bağımlılıkları ortaya çıkarır. Kendinizle yüzleşmek ve sağlıklı sınırlar koymak için bu dönemi kullanabilirsiniz.',
+  },
+     'YIKILAN KULE': {
+      'AŞK': 'Aşk hayatınızda ani ve sarsıcı değişimler yaşanabilir. Bu kart, mevcut yapılar ve inançların yıkılması anlamına gelir. İlişkinizde büyük bir değişim veya dönüşüm süreci başlayabilir. Eski kalıpları bırakıp yeni bir yola adım atma zamanı olabilir.',
+  },
+     'YILDIZ': {
+      'AŞK': 'Aşk hayatınızda umut ve iyimserlik dönemi başlıyor. Bu kart, pozitif bir bakış açısı ve umut dolu bir süreç getirir. Romantik yaşamınızda iyileşme ve yenilenme yaşamanız muhtemel.',
+  },
+     'AY': {
+      'AŞK': 'Aşk hayatınızda belirsizlikler ve gizemler olabilir. Bu kart, derin duygusal dalgalanmalar ve sezgisel bir arayış içinde olduğunuzu gösterir. Sezgilerinize güvenin ve yüzeyin altındaki gerçekleri anlamaya çalışın. Belki de ilişkinizde çözülmemiş bir konuyu ele almanız gerekebilir.',
+  },
+     'GÜNEŞ': {
+      'AŞK': 'Aşk hayatınızda mutluluk ve aydınlanma dönemi başlıyor. Bu kart, ilişkide pozitif bir enerji ve neşe getirecek. Romantik yaşamınızda aydınlanma ve başarıyı temsil eder. İlişkinizdeki olumlu değişikliklerin tadını çıkarabilirsiniz.',
+  },
+     'MAHKEME': {
+      'AŞK': 'Aşk hayatınızda geçmişin değerlendirilmesi ve adalet arayışı ön planda. Bu kart, eski ilişkilerle ilgili düşünme ve mevcut durumun adil bir şekilde ele alınması gerekliliğini temsil eder. Geçmişi değerlendirmek ve geleceğe yönelik adil kararlar almak için iyi bir zaman.',
+  },
+     'DÜNYA': {
+      'AŞK': 'Aşk hayatınızda tamamlanma ve tatmin dönemi. Bu kart, ilişki konusunda büyük bir başarı ve bütünleşme hissi getirir. İlişkinizde bir hedefe ulaştığınız ve derin bir memnuniyet hissettiğiniz bir döneme adım atabilirsiniz.',
+  },
+
+
+     'KILIÇ ASI': {
+      'AŞK': 'Aşk hayatınızda netlik ve gerçeklerin ortaya çıkma dönemi. Bu kart, doğru ve dürüst bir iletişim ihtiyacını temsil eder. İlişkinizdeki sorunları açıkça konuşmak ve gerçekleri anlamak için cesur olun. Bu dönemde yeni bir anlayış ve bilgi kazanabilirsiniz.',
+  },
+     'KILIÇ İKİLİSİ': {
+      'AŞK': 'Aşk hayatınızda bir içsel çatışma veya kararsızlık dönemi yaşanabilir. Bu kart, iki seçenek arasında kalmış olabileceğinizi ve doğru kararı vermek için içsel huzura ulaşmanız gerektiğini gösterir. İlişkinizdeki kararlarınızda düşünceli ve dengeli bir yaklaşım sergilemelisiniz.',
+  },
+     'KILIÇ ÜÇLÜSÜ': {
+      'AŞK': 'Bu kart, ilişki içinde bazı zorlayıcı durumların veya anlaşmazlıkların ortaya çıkabileceğini gösterir. Bu dönemde duygusal iyileşme için kendinize zaman ayırmak ve içsel huzurunuzu yeniden bulmak önemlidir. Kendinize nazik davranın ve iyileşme sürecinizde sabırlı olun.',
+  },
+     'KILIÇ DÖRTLÜSÜ': {
+      'AŞK': 'Aşk hayatınızda bir süreliğine geri çekilme veya dinlenme dönemi. Bu kart, zihinsel ve duygusal olarak bir molaya ihtiyacınız olduğunu gösterir. Kendinize zaman tanıyın, düşüncelerinizi toparlayın ve içsel huzuru yeniden bulmaya çalışın.',
+  },
+     'KILIÇ BEŞLİSİ': {
+      'AŞK': 'Aşk hayatınızda bir çatışma veya anlaşmazlık dönemi yaşanabilir. Bu kart, ilişkinizdeki zorlukları ve mücadeleleri temsil eder. Karşılıklı anlayış ve iletişim kurarak bu zorlukların üstesinden gelmek için çaba göstermelisiniz.',
+  },
+     'KILIÇ ALTILISI': {
+      'AŞK': 'Aşk hayatınızda geçmişten gelen sorunları geride bırakma ve yeni bir başlangıç yapma zamanı. Bu kart, eski meselelerden kurtulup huzurlu bir geleceğe adım atmanız gerektiğini gösterir. İlişkinizde olumlu değişiklikler yapma fırsatı bulabilirsiniz.',
+  },
+     'KILIÇ YEDİLİSİ': {
+      'AŞK': 'Aşk hayatınızda strateji ve planlama yapmanız gerekebilir. Bu kart, ilişkiyle ilgili gizli düşünceleri veya planları temsil eder. Duygusal olarak ne istediğinizi netleştirin ve stratejik bir yaklaşım benimseyin. İlişkinizdeki sorunları çözmek için akıllıca hareket etmelisiniz.',
+  },
+     'KILIÇ SEKİZLİSİ': {
+      'AŞK': 'Aşk hayatınızda kendinizi kısıtlanmış veya sıkışmış hissedebilirsiniz. Bu kart, zihinsel sınırlamalar ve özgürlük arayışını temsil eder. İlişkinizdeki engelleri aşmak ve kendinizi ifade etmek için cesur olmalısınız. Zihinsel olarak daha açık ve özgür hissetmeye çalışın.',
+  },
+     'KILIÇ DOKUZLUSU': {
+      'AŞK': 'Aşk hayatınızda endişe veya tedirginlik hissedebilirsiniz. Duygusal olarak rahatlamak ve içsel korkularınızla yüzleşmek için kendinize zaman tanıyın. Rahatlatıcı aktiviteler ve açık iletişim, bu dönemde size yardımcı olabilir.',
+  },
+     'KILIÇ ONLUSU': {
+      'AŞK': 'Bu kart, ilişkiyle ilgili bazı zorlukların ve hayal kırıklıklarının zaman zaman yaşanabileceğini gösterir. Bu süreçte kendinizi toparlamaya çalışın ve kendinize karşı nazik ve şefkatli olun. Bu dönemi, kişisel büyüme ve iyileşme fırsatı olarak görebilirsiniz.',
+  },
+     'KILIÇ PRENSİ': {
+      'AŞK': 'Aşk hayatınızda cesur ve dinamik bir döneme adım atıyorsunuz. Bu kart, ilişki konularında enerjik ve hızlı bir yaklaşımı temsil eder. Duygusal olarak açık ve dürüst olmaya özen gösterin. İlişkinizdeki konuları doğrudan ve açık bir şekilde ele alın.',
+  },
+     'KILIÇ ŞÖVALYESİ': {
+      'AŞK': 'Aşk hayatınızda hızlı ve etkili bir değişim dönemi yaşanabilir. Bu kart, kararlı ve cesur bir yaklaşım sergilemenizi önerir. İlişkinizdeki zorluklarla başa çıkmak için aktif bir şekilde hareket edin ve harekete geçin.',
+  },
+     'KILIÇ KRALİÇESİ': {
+      'AŞK': 'Aşk hayatınızda keskin bir zeka ve analitik bir düşünce dönemi. Bu kart, ilişkilerde mantıklı ve objektif bir yaklaşımı temsil eder. Duygusal olarak net ve dürüst olmaya çalışın, ancak empati ve anlayışı da ihmal etmeyin.',
+  },
+     'KILIÇ KRALI': {
+      'AŞK': 'Aşk hayatınızda güçlü bir liderlik ve karar verme dönemi. Bu kart, ilişkilerde netlik ve keskin bir analiz gerektiren durumları temsil eder. İlişkinizdeki sorunları çözmek için kararlı ve mantıklı bir yaklaşım sergilemeniz gerekebilir.',
+  },	
+
+
+     'KUPA ASI': {
+      'AŞK': 'Aşk hayatınızda derin ve güçlü duygusal başlangıçlar yaşanıyor. Bu kart, yeni bir romantik ilişkinin başlaması veya mevcut ilişkinizde duygusal bir tazelenme anlamına gelir. Kalbinizin derinliklerinde yeni duygusal keşifler yapabilir ve sevgi dolu bir dönem geçirebilirsiniz.',
+  },
+     'KUPA İKİLİSİ': {
+      'AŞK': 'Aşk hayatınızda uyumlu ve dengeli bir ilişki dönemi yaşanıyor. Bu kart, sevgilinizle aranızdaki bağın güçlendiğini ve aranızda karşılıklı anlayış ve destek olduğunu gösterir. İlişkinizdeki bu denge ve uyum, ortak hedeflere ulaşmak ve mutlu anlar paylaşmak için zemin hazırlıyor.',
+  },
+     'KUPA ÜÇLÜSÜ': {
+      'AŞK': 'Aşk hayatınızda kutlama ve neşe dolu bir dönemdesiniz. Bu kart, sosyal etkinlikler, arkadaşlarınızla geçirilen keyifli zamanlar ve romantik ilişkilerde mutluluk yaşamanız anlamına gelir. Sevdiğiniz kişilerle vakit geçirmeniz, duygusal olarak beslenmenizi sağlayacak.',
+  },
+     'KUPA DÖRTLÜSÜ': {
+      'AŞK': 'Aşk hayatınızda bir duraklama ve memnuniyetsizlik dönemi söz konusu olabilir. Bu kart, mevcut ilişki veya duygusal durumdan memnuniyetsizlik hissi yaşamanızı ve belki de bazı değişiklikler yapma ihtiyacı hissetmenizi gösterir. Bu dönemde, duygusal ihtiyaçlarınızı gözden geçirip, neyin eksik olduğunu anlamak önemlidir.',
+  },
+     'KUPA BEŞLİSİ': {
+      'AŞK': 'Aşk hayatınızda geçmişte yaşadığınız bir kayıptan veya hayal kırıklığından dolayı üzüntü duyabilirsiniz. Bu kart, geçmişteki duygusal deneyimlerinizi değerlendirmeniz ve iyileşme sürecine odaklanmanız gerektiğini işaret eder. Gelecekteki olasılıkları görmek için açık bir zihinle ilerlemeye çalışın.',
+  },
+     'KUPA ALTILISI': {
+      'AŞK': 'Aşk hayatınızda geçmişle ilgili güzel anılar ve duygular ön plana çıkıyor. Bu kart, eski bir ilişki veya geçmişte yaşadığınız mutlu anların yeniden gündeme gelebileceğini gösterir. Bu dönem, eski sevgililerle veya geçmişteki ilişkilerle bağlantı kurmak için fırsatlar sunabilir.',
+  },
+     'KUPA YEDİLİSİ': {
+      'AŞK': 'Aşk hayatınızda seçenekler ve kafa karışıklığı yaşamanız mümkün. Bu kart, çeşitli olasılıkların ve seçeneklerin mevcut olduğunu ve bu nedenle karar vermekte zorlanabileceğinizi gösterir. İçsel olarak ne istediğinizi netleştirip, kalbinizin sesini dinlemek bu süreçte yardımcı olabilir.',
+  },
+     'KUPA SEKİZLİSİ': {
+      'AŞK': 'Aşk hayatınızda memnuniyetsizliğe ve belki de eski bir durumu geride bırakmaya işaret eder. Bu kart, mevcut ilişki veya durumdan tatmin olmadığınızı ve yeni bir başlangıç için adım atma ihtiyacı duyduğunuzu gösterir. Gelecekte size daha uygun bir yön aramak için bu değişimi kabul edin.',
+  },
+     'KUPA DOKUZLUSU': {
+      'AŞK': 'Aşk hayatınızda dileklerinizin gerçekleşme zamanıdır. Bu kart, romantik ilişkilerde büyük bir tatmin ve mutluluk yaşamanız anlamına gelir. Hayal ettiğiniz şeylere ulaşmak için kendinizi hazır ve açık hissedeceksiniz. Bu dönemi, duygusal olarak tatmin ve huzur içinde geçirebilirsiniz.',
+  },
+     'KUPA ONLUSU': {
+      'AŞK': 'Aşk hayatınızda tam bir mutluluk ve huzur dönemi yaşanıyor. Bu kart, ilişkinizde derin bir tatmin ve uzun vadeli mutluluğun işareti olarak görülebilir. Sevdiklerinizle birlikte geçirdiğiniz zamanın keyfini çıkarın ve bu tatmin edici dönemden tam anlamıyla yararlanın.',
+  },
+     'KUPA PRENSİ': {
+      'AŞK': 'Aşk hayatınızda yenilikçi ve yaratıcı bir dönemdesiniz. Bu kart, duygusal olarak taze ve heyecanlı bir başlangıç yapma isteğinizi işaret eder. Romantik ilişkilerde eğlenceli ve enerjik bir yaklaşım benimseyebilirsiniz, bu da ilişkinize canlılık katacaktır.',
+  },
+     'KUPA ŞÖVALYESİ': {
+      'AŞK': 'Aşk hayatınızda romantik ve duyarlı bir döneme adım atıyorsunuz. Bu kart, duygusal olarak derin bir bağlılık ve romantik bir teklif anlamına gelir. Sevgi ve şefkat dolu bir yaklaşım, ilişkinizi güçlendirebilir ve yeni bir aşamaya taşıyabilir.',
+  },
+     'KUPA KRALİÇESİ': {
+      'AŞK': 'Aşk hayatınızda derin duygusal anlayış ve şefkat ön planda. Bu kart, sevgi dolu ve destekleyici bir enerji yaydığınızı ve ilişkinizde duygusal olarak olgun ve güven verici bir tavır sergilediğinizi gösterir. Partnerinizle olan bağınızda sıcaklık ve derinlik hissedebilirsiniz.',
+  },
+     'KUPA KRALI': {
+      'AŞK': 'Aşk hayatınızda duygusal denge ve olgunluk dönemi. Bu kart, güvenilir ve anlayışlı bir partner olma kapasitenizi vurgular. Romantik ilişkilerde duygusal olarak güçlü ve destekleyici bir rol üstlenebilirsiniz. İlişkinizdeki denge ve olgunluk, size ve partnerinize huzur getirecek.',
+  },	
+  
+
+     'PARA ASI': {
+      'AŞK': 'Aşk hayatınızda yeni başlangıçlar ve fırsatlar dönemi ön planda. Bu kart, romantik ilişkilerde yeni fırsatlar ve başlangıçlar yaşamanız anlamına gelir. Duygusal olarak taze bir başlangıç yapabilir ve ilişkinizde yeni potansiyeller keşfedebilirsiniz.',
+  },
+     'PARA İKİLİSİ': {
+      'AŞK': 'Aşk hayatınızda denge ve uyum arayışı içinde olabilirsiniz. Bu kart, iki önemli alanı dengede tutma gerekliliğini gösterir; belki de ilişkinizle ilgili bazı kararlar almanız veya sevginizi ve diğer yaşam sorumluluklarınızı dengelemeniz gerekebilir. İlişkinizde dengeyi sağlamak için her iki tarafın ihtiyaçlarını göz önünde bulundurmanız önemli.',
+  },
+     'PARA ÜÇLÜSÜ': {
+      'AŞK': 'Aşk hayatınızda ortak bir çaba ve işbirliği dönemi yaşanıyor. Bu kart, ilişkinizde ortak hedefler ve projeler üzerinde çalışmanın ve birlikte zaman geçirmenin önemini vurgular. Sevginiz, birlikte başardığınız şeyler ve ortak başarılar ile daha da güçlenebilir.',
+  },
+     'PARA DÖRTLÜSÜ': {
+      'AŞK': 'Aşk hayatınızda güven ve istikrar ön planda. Bu kart, mevcut ilişkinizde sağlam bir temel oluşturma ve duygusal olarak güvence sağlama arayışınızı gösterir. Bu dönemde, ilişkiye yatırım yapmak ve duygusal güvenliği sağlamak öncelikli olabilir.',
+  },
+     'PARA BEŞLİSİ': {
+      'AŞK': 'Aşk hayatınızda maddi ya da duygusal zorluklarla karşılaşabilirsiniz. Bu kart, ilişkinizde yaşanan bazı sıkıntılar veya kayıpların işareti olabilir. Bu dönem, ilişkinizdeki zorlukları aşmak ve birlikte güçlü kalmak için destek ve anlayış geliştirmek için önemlidir.',
+  },
+     'PARA ALTILISI': {
+      'AŞK': 'Aşk hayatınızda cömertlik ve karşılıklı destek dönemi yaşanıyor. Bu kart, ilişkinizde denge ve uyum sağlamak için karşılıklı olarak birbirinize yardım etme ve destek olma anlamına gelir. İlişkinizdeki bu karşılıklı destek, duygusal bağınızı daha da güçlendirebilir.',
+  },
+     'PARA YEDİLİSİ': {
+      'AŞK': 'Aşk hayatınızda değerlendirme ve düşünme dönemi söz konusu olabilir. Bu kart, ilişkinizde neyin doğru olduğu ve hangi adımları atmanız gerektiği konusunda düşünme sürecine işaret eder. Belki de ilişkinizin geleceği hakkında kararlar almanız gerekiyor.',
+  },
+     'PARA SEKİZLİSİ': {
+      'AŞK': 'Aşk hayatınızda yoğun bir şekilde çalışmayı ve çaba göstermeyi temsil eder. Bu kart, ilişkinizde daha fazla emek ve özen gösterme gerekliliğini vurgular. Çalışmalarınız ve çabalarınız, ilişkinizde olumlu sonuçlar doğurabilir ve daha güçlü bir bağ kurmanıza yardımcı olabilir.',
+  },
+     'PARA DOKUZLUSU': {
+      'AŞK': 'Aşk hayatınızda tatmin ve başarı dönemi yaşanıyor. Bu kart, romantik ilişkilerde duygusal olarak tatmin ve kişisel başarı anlamına gelir. Sevgilinizle birlikte yaşadığınız anların ve ilişkideki olumlu gelişmelerin tadını çıkarabilirsiniz.',
+  },
+     'PARA ONLUSU': {
+      'AŞK': 'Aşk hayatınızda uzun vadeli mutluluk ve güven duygusu ön planda. Bu kart, ilişkinizde sağlam bir temel ve uzun vadeli tatmin sağlayan bir dönem yaşadığınızı gösterir. Ailevi bağlar ve uzun süreli bağlılıklar bu dönemde öne çıkabilir.',
+  },
+     'PARA PRENSİ': {
+      'AŞK': 'Aşk hayatınızda genç, enerjik ve heyecanlı bir dönemdesiniz. Bu kart, ilişkilerinizde yeni ve taze bir yaklaşım benimsemeyi işaret eder. Romantik ilişkilerde merak ve keşfetme duygusu ön planda olabilir.',
+  },
+     'PARA ŞÖVALYESİ': {
+      'AŞK': 'Aşk hayatınızda güvenli ve istikrarlı bir yaklaşım öne çıkıyor. Bu kart, ilişkinizde sağlam adımlar atma ve güvenilir bir destek olma anlamına gelir. İlişkinizde güven oluşturma ve istikrarlı bir temel sağlama konusunda dikkatiniz yoğun olabilir.',
+  },
+     'PARA KRALİÇESİ': {
+      'AŞK': 'Aşk hayatınızda duygusal ve maddi açıdan dengeli bir dönem yaşanıyor. Bu kart, romantik ilişkilerde hem maddi hem de duygusal olarak destekleyici ve anlayışlı bir tutum sergilediğinizi gösterir. İlişkinizde bu dengeyi ve şefkati korumanız, ilişkinizin güçlenmesine yardımcı olabilir.',
+  },
+     'PARA KRALI': {
+      'AŞK': 'Aşk hayatınızda liderlik ve sağlam bir temel oluşturma dönemi yaşanıyor. Bu kart, ilişkinizde sorumluluk alma ve liderlik yapma yeteneğinizi işaret eder. Güvenilir ve karar verici bir rol üstlenmeniz, ilişkinizin istikrarını ve başarısını artırabilir.',
+  },	
+      
+
+     'DEĞNEK ASI': {
+      'AŞK': 'Aşk hayatınızda yeni başlangıçlar ve taze enerjiler öne çıkıyor. Bu kart, romantik ilişkilerde yeni fırsatlar ve heyecan verici gelişmeler yaşamanızı işaret eder. İlişkinizdeki bu yenilikçi dönem, potansiyelinizi artırabilir ve yeni umutlar getirebilir.',
+  },
+     'DEĞNEK İKİLİSİ': {
+      'AŞK': 'Aşk hayatınızda önemli bir seçim yapma aşamasındasınız. Bu kart, gelecekteki yönünüzü belirleme ve ilişkinizle ilgili uzun vadeli planlar yapma zamanı olduğunu gösterir. Partnerinizle birlikte hayallerinizi ve hedeflerinizi tartışarak uyum sağlamaya çalışın.',
+  },
+     'DEĞNEK ÜÇLÜSÜ': {
+      'AŞK': 'Aşk hayatınızda büyüme ve ilerleme dönemi yaşanıyor. Bu kart, ilişkinizde yeni fırsatların ve keşiflerin olduğunu gösterir. İlişkinizdeki bu heyecan verici dönem, birlikte büyük adımlar atmak ve ortak projeler geliştirmek için uygun bir zaman olabilir.',
+  },
+     'DEĞNEK DÖRTLÜSÜ': {
+      'AŞK': 'Aşk hayatınızda huzur ve tatmin dönemi öne çıkıyor. Bu kart, ilişkinizde mutlu bir denge ve istikrar yakalamanızı işaret eder. Birlikte vakit geçirme, kutlamalar ve özel anların tadını çıkarma zamanı. İlişkinizin bu olumlu yönlerini desteklemek için birlikte zaman geçirin.',
+  },
+     'DEĞNEK BEŞLİSİ': {
+      'AŞK': 'Aşk hayatınızda rekabet ve zorluklarla karşılaşabilirsiniz. Bu kart, ilişkinizde bazı anlaşmazlıklar veya çatışmalar yaşanabileceğini gösterir. Bu dönemde açık iletişim ve empati kurma, sorunları çözmede yardımcı olabilir. Sorunları yapıcı bir şekilde ele almak önemlidir.',
+  },
+     'DEĞNEK ALTILISI': {
+      'AŞK': 'Aşk hayatınızda başarı ve takdir dönemi yaşanıyor. Bu kart, ilişkinizdeki başarıları ve ortak başarıları kutlama zamanının geldiğini gösterir. İlişkinizdeki bu başarılar, karşılıklı destek ve ortak hedeflerinize ulaşmanın ödülleridir.',
+  },
+     'DEĞNEK YEDİLİSİ': {
+      'AŞK': 'Aşk hayatınızda kararlılık ve mücadele dönemi ön planda. Bu kart, ilişkinizdeki zorluklarla başa çıkma ve engelleri aşma gücünü işaret eder. Duygusal olarak güçlü kalmak ve hedeflerinize odaklanmak, ilişkinizdeki sorunları aşmanıza yardımcı olabilir.',
+  },
+     'DEĞNEK SEKİZLİSİ': {
+      'AŞK': 'Aşk hayatınızda hız ve hareket ön planda. Bu kart, ilişkinizde hızlı gelişmeler ve dinamik bir dönem yaşadığınızı gösterir. İlişkinizdeki bu enerjik dönem, heyecan ve yenilikler getirebilir. Hızla ilerleyen bir döneme hazırlıklı olun.',
+  },
+     'DEĞNEK DOKUZLUSU': {
+      'AŞK': 'Aşk hayatınızda tatmin ve başarı dönemi yaşıyorsunuz. Bu kart, ilişkinizde emeklerinizin karşılığını aldığınızı ve duygusal olarak tatmin olduğunuzu gösterir. Başarılarınızı ve elde ettiklerinizi kutlayın, çünkü bu dönem olumlu gelişmelerle dolu olabilir.',
+  },
+     'DEĞNEK ONLUSU': {
+      'AŞK': 'Aşk hayatınızda sorumluluklar ve yükler ön planda olabilir. Bu kart, ilişkinizde bazı zorluklar veya yükler taşıdığınızı işaret eder. Bu dönemde birlikte güçlü kalmak ve zorluklarla başa çıkmak önemlidir. İlişkinizi destekleyici ve uyumlu bir şekilde sürdürmeye çalışın.',
+  },
+     'DEĞNEK PRENSİ': {
+      'AŞK': 'Aşk hayatınızda yenilik ve enerjik bir dönem yaşıyorsunuz. Bu kart, ilişkinizde heyecan ve yeni başlangıçların olduğunu gösterir. Romantik ilişkilerde merak ve keşfetme duygusu öne çıkabilir. Bu taze enerji, ilişkinizi canlandırabilir.',
+  },
+     'DEĞNEK ŞÖVALYESİ': {
+      'AŞK': 'Aşk hayatınızda cesur ve maceracı bir dönem öne çıkıyor. Bu kart, ilişkinizde yeni deneyimler ve heyecanlı fırsatlar yaşamanızı gösterir. Cesur adımlar atmak ve risk almak, romantik hayatınızı canlı ve dinamik tutabilir.',
+  },
+     'DEĞNEK KRALİÇESİ': {
+      'AŞK': 'Aşk hayatınızda anlayış ve şefkat dönemi yaşanıyor. Bu kart, romantik ilişkilerde duygusal olarak destekleyici ve koruyucu bir rol üstlenmenizi işaret eder. İlişkinizde sevgi ve anlayışı artırmak için dikkatli ve şefkatli bir yaklaşım benimseyebilirsiniz.',
+  },
+     'DEĞNEK KRALI': {
+      'AŞK': 'Aşk hayatınızda liderlik ve vizyon öne çıkıyor. Bu kart, ilişkinizde güçlü bir liderlik rolü üstlenmenizi ve hedeflerinize ulaşma konusunda kararlı bir yaklaşım sergilemenizi gösterir. İlişkinizdeki bu kararlı ve stratejik yaklaşım, başarılı bir dönem geçirebilmenize yardımcı olabilir.',
+  },	
+  // Diğer kartlar için açıklamalar buraya eklenecek...
+      };
+
+      const container = document.querySelector('.card-container');
+      const description = document.querySelector('.description');
+      const resetButton = document.querySelector('.reset-button');
+
+      // Kartları oluştur
+      function createCard(name, index) {
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.dataset.name = name;
+          card.dataset.index = index;
+
+          card.addEventListener('click', function () {
+              const allCards = document.querySelectorAll('.card');
+              allCards.forEach(c => {
+                  if (c !== card) {
+                      c.classList.remove('selected');
+                  }
+              });
+
+              card.classList.toggle('selected');
+
+              // Kartın açıklamasını göster
+              if (card.classList.contains('selected')) {
+                  const cardName = card.dataset.name;
+                  const descriptions = cardDescriptions[cardName] || {
+                      AŞK: 'Açıklama mevcut değil.',
+                  };
+                  description.classList.add('active');
+                  description.innerHTML = `
+                      <h2>${cardName}</h2>
+                      <p><strong></strong> ${descriptions.AŞK}</p>
+                  `;
+              } else {
+                  description.classList.remove('active');
+              }
+          });
+
+          const front = document.createElement('div');
+          front.className = 'front';
+
+          const back = document.createElement('div');
+          back.className = 'back';
+          back.textContent = name;
+
+          card.appendChild(front);
+          card.appendChild(back);
+          container.appendChild(card);
+      }
+
+      function shuffleCards() {
+          const allCards = Array.from(document.querySelectorAll('.card'));
+          allCards.forEach(card => container.removeChild(card));
+
+          const shuffledNames = cardNames.sort(() => Math.random() - 0.5);
+          shuffledNames.forEach((name, index) => createCard(name, index));
+      }
+
+      // Başlangıçta kartları oluştur
+      shuffleCards();
+
+      // Kartları karıştırma butonuna tıklama olayı
+      resetButton.addEventListener('click', shuffleCards);
+  });
+</script>
+
+
+
+</body>
+</html>

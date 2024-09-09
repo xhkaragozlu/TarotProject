@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+    
+    /* Add a gray background color and some padding to the footer */
+    footer {
+      background-color: #f2f2f2;
+      padding: 25px;
+    }
+
+    body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f3f1e7;
+            color: #333;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3em;
+            color: #4a4a4a;
+            margin-bottom: 30px;
+            font-weight: 700;
+        }
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+        .filter-buttons button {
+            padding: 12px 25px;
+            margin: 8px;
+            cursor: pointer;
+            background-color: #006d77;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 1.1em;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .filter-buttons button.active {
+            background-color: #83c5be;
+            color: #006d77;
+        }
+        .filter-buttons button:hover {
+            background-color: #028090;
+            transform: scale(1.05);
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            justify-items: center;
+            padding: 0 30px;
+        }
+        .card {
+            width: 200px;
+            padding: 15px;
+            background-color: #fff;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: transform 0.4s, box-shadow 0.4s;
+            position: relative;
+        }
+        .card img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+        .card p {
+            margin: 0;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+        }
+        .card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+        .card.hidden {
+            display: none;
+        }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">TAROTLAB</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li><a href="index.html">Anasayfa</a></li>
+        <li><a href="uckartpage.html">Üç Kart Tarot Açılımı</a></li>
+        <li><a href="tekkartpage.html">Tek Kart Tarot Açılımı</a></li>
+        <li class="active"><a href="deneme.html">Tarot Kartları</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<h1>tarot</h1>
+
+<h1>Tarot Kartları Filtreleme</h1>
+
+<div class="filter-buttons">
+    <button onclick="filterCards('all')" class="active">Tüm Kartlar</button>
+    <button onclick="filterCards('buyuk-arkana')">Büyük Arkana</button>
+    <button onclick="filterCards('asa')">Asa Kartları</button>
+    <button onclick="filterCards('kilic')">Kılıç Kartları</button>
+    <button onclick="filterCards('kupa')">Kupa Kartları</button>
+    <button onclick="filterCards('tilsim')">Tılsım Kartları</button>
+</div>
+
+<div class="cards">
+    <div class="card buyuk-arkana">
+        <img src="buyuk-arkana-1.jpg" alt="Mecnun">
+        <p>Mecnun</p>
+    </div>
+    <div class="card buyuk-arkana">
+        <img src="buyuk-arkana-2.jpg" alt="Büyücü">
+        <p>Büyücü</p>
+    </div>
+    <!-- Diğer kartlar buraya gelecek -->
+    <div class="card asa">
+        <img src="asa-1.jpg" alt="Asa Kartı 1">
+        <p>Asa Kartı 1</p>
+    </div>
+    <div class="card kilic">
+        <img src="images/kilic_altilisi_tarot_karti.png" alt="Kılıç Kartı 1">
+        <p>Kılıç Kartı 1</p>
+    </div>
+    <div class="card kupa">
+        <img src="kupa-1.jpg" alt="Kupa Kartı 1">
+        <p>Kupa Kartı 1</p>
+    </div>
+    <div class="card tılsım">
+        <img src="tilsim-1.jpg" alt="Tılsım Kartı 1">
+        <p>Tılsım Kartı 1</p>
+    </div>
+</div>
+
+<script>
+    function filterCards(category) {
+        var cards = document.querySelectorAll('.card');
+        var buttons = document.querySelectorAll('.filter-buttons button');
+        
+        buttons.forEach(function(button) {
+            button.classList.remove('active');
+        });
+        
+        event.target.classList.add('active');
+        
+        cards.forEach(function(card) {
+            if (category === 'all') {
+                card.classList.remove('hidden');
+            } else {
+                if (card.classList.contains(category)) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            }
+        });
+    }
+</script>
+
+
+
+
+</body>
+</html>
